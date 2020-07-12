@@ -15,11 +15,11 @@
 # and the PG will write to the console the kind of error and in which line it is
 
 meta:
-	ADDON_NAME = ofxAddonTemplate
-	ADDON_DESCRIPTION = ofxAddonTemplate is amazing!
-	ADDON_AUTHOR = @yournamehere
-	ADDON_TAGS = "addon" "template"
-	ADDON_URL = http://github.com/yournamehere/ofxAddonTemplate
+	ADDON_NAME = ofxEosSyncLib
+	ADDON_DESCRIPTION = ofxEosSyncLib, ofx Library of EosSyncLib from Eos Labs.
+	ADDON_AUTHOR = @Tedcharlesbrown
+	ADDON_TAGS = "EOS" "OSC"
+	ADDON_URL = https://github.com/Tedcharlesbrown/ofxEosSyncLib
 
 common:
 	# dependencies with other addons, a list of them separated by spaces 
@@ -29,7 +29,8 @@ common:
 	# include search paths, this will be usually parsed from the file system
 	# but if the addon or addon libraries need special search paths they can be
 	# specified here separated by spaces or one per line using +=
-	# ADDON_INCLUDES =
+	ADDON_INCLUDES = libs/EosSyncLib/include
+	ADDON_INCLUDES += src
 	
 	# any special flag that should be passed to the compiler when using this
 	# addon
@@ -70,7 +71,7 @@ common:
 	
 	# when parsing the file system looking for libraries exclude this for all or
 	# a specific platform
-	# ADDON_LIBS_EXCLUDE =
+	ADDON_SOURCES_EXCLUDE = libs/EosSyncLib/include/%
 	
 	# binary libraries, these will be usually parsed from the file system but some 
 	# libraries need to passed to the linker in a specific order/
