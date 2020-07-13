@@ -29,8 +29,8 @@ common:
 	# include search paths, this will be usually parsed from the file system
 	# but if the addon or addon libraries need special search paths they can be
 	# specified here separated by spaces or one per line using +=
-	ADDON_INCLUDES = libs/EosSyncLib/include
-	ADDON_INCLUDES += src
+# 	ADDON_INCLUDES = libs/EosSyncLib/include
+# 	ADDON_INCLUDES += src
 	
 	# any special flag that should be passed to the compiler when using this
 	# addon
@@ -71,7 +71,7 @@ common:
 	
 	# when parsing the file system looking for libraries exclude this for all or
 	# a specific platform
-	ADDON_SOURCES_EXCLUDE = libs/EosSyncLib/include/%
+# 	ADDON_SOURCES_EXCLUDE = libs/EosSyncLib/include/%
 	
 	# binary libraries, these will be usually parsed from the file system but some 
 	# libraries need to passed to the linker in a specific order/
@@ -92,12 +92,30 @@ vs:
 	# After compiling copy the following dynamic libraries to the executable directory
 	# only windows visual studio
 	# ADDON_DLLS_TO_COPY = 
+
+	ADDON_SOURCES_EXCLUDE = libs/EosSyncLib/src/EosTcp_Mac.cpp
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/src/EosUdp_Mac.cpp
 	
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/include/EosTcp_Mac.h
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/include/EosUdp_Mac.h
+
+	ADDON_INCLUDES_EXCLUDE = libs/EosSyncLib/include/EosTcp_Mac.h
+	ADDON_INCLUDES_EXCLUDE += libs/EosSyncLib/include/EosUdp_Mac.h
 linuxarmv6l:
 linuxarmv7l:
 android/armeabi:	
 android/armeabi-v7a:	
 osx:
+
+	ADDON_INCLUDES_EXCLUDE = libs/EosSyncLib/include/EosTcp_Win.h
+	ADDON_INCLUDES_EXCLUDE += libs/EosSyncLib/include/EosUdp_Win.h
+
+	ADDON_SOURCES_EXCLUDE = libs/EosSyncLib/include/EosTcp_Win.h
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/include/EosUdp_Win.h
+
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/src/EosTcp_Win.cpp
+	ADDON_SOURCES_EXCLUDE += libs/EosSyncLib/src/EosUdp_Win.cpp
+
 	# osx/iOS only, any framework that should be included in the project
 	# ADDON_FRAMEWORKS =
 ios:
