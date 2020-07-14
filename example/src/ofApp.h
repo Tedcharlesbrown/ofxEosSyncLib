@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxEosSyncLib.h"
-
+#include "EosOsc.h"
 
 class ofApp : public ofBaseApp{
 
@@ -22,11 +22,9 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
-	
 	
 	ofxEosSyncLib eosSync;
-	
+    
 	void sendSomething();
 	
 	

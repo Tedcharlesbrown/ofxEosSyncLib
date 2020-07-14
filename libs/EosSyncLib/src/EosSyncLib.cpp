@@ -636,19 +636,19 @@ void EosTargetList::Tick(EosTcp &tcp, EosOsc &osc)
 	{
 		case EosSyncStatus::SYNC_STATUS_UNINTIALIZED:
 			{
-				std::string path("/eos/get/");
-				path.append( EosTarget::GetNameForTargetType(m_Type) );
-				if(m_Type == EosTarget::EOS_TARGET_CUE)
-				{
-					path.append("/");
-					char buf[33];
-					sprintf(buf, "%d", m_ListId);					
-					path.append(buf);
-				}
-				path.append("/count");
-
-				if( osc.Send(tcp,OSCPacketWriter(path),/*immediate*/false) )
-					m_StatusInternal.SetValue(EosSyncStatus::SYNC_STATUS_RUNNING);
+//				std::string path("/eos/get/");
+//				path.append( EosTarget::GetNameForTargetType(m_Type) );
+//				if(m_Type == EosTarget::EOS_TARGET_CUE)
+//				{
+//					path.append("/");
+//					char buf[33];
+//					sprintf(buf, "%d", m_ListId);
+//					path.append(buf);
+//				}
+//				path.append("/count");
+//
+//				if( osc.Send(tcp,OSCPacketWriter(path),/*immediate*/false) )
+//					m_StatusInternal.SetValue(EosSyncStatus::SYNC_STATUS_RUNNING);
 			}
 			break;
 
