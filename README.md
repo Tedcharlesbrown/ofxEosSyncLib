@@ -30,7 +30,7 @@ Without TCP, the user will have to...
 1. Type in the IP Address of the console into the app
 2. Match the rx port of the console to the tx port in the app.
 3. Match the tx port of the console to the rx port in the app.
-4. Type in the IP Address of the phone running the app into the console, seperating multiple IP's by commmas.
+4. Type in the IP Address of the phone running the app into the console, separating multiple IP's by commmas.
 
 On the other hand, with TCP the user only has to...
 1. Type in the IP Address of the console into the app.
@@ -40,7 +40,7 @@ Since TCP uses the same port for tx and rx - it dedicates port 3032 for this. No
 
 *The other main reason is: packet drops.*
 
-With less packets dropped, you can insure that all OSC is being received properly. Since the EOS actually sends hundreds of OSC packets per keystroke, making sure you get each one is important.
+With fewer packets dropped, you can ensure that all OSC is being received properly. Since the EOS actually sends hundreds of OSC packets per keystroke, making sure you get each one is important.
 
 #### Console setup:
 If you are not familiar with the ETC EOS software, I have included an empty showfile that has the correct settings. In order to see what is being sent and received by the console, In the lower left hand side of the screen there is a tab that says "99 DIAGNOSTICS" - click this. (Likewise you can also hold down "TAB", press "99", and release "TAB"). Then, in this new window, scroll down. You should see two toggle buttons called "INCOMING OSC (off)" and "OUTGOING OSC (off)". Click these so they show.
