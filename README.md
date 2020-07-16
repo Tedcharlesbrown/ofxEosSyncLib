@@ -23,9 +23,10 @@ The EOS family console line is mostly used in live theatre. From Broadway to hig
 ### Why TCP?:
 This is stated by ETC to be their preferred protocol - https://www.etcconnect.com/workarea/DownloadAsset.aspx?id=10737461372.
 Note: EOS can use both packet-length headers and SLIP, but packet-length is preferred.
-*There are also two other main reasons why I feel TCP is needed.*
 
-The End-User: Without TCP, the user will have to...
+*There are also two other main reasons why I feel TCP is needed. One: The End-User.*
+
+Without TCP, the user will have to...
 1. Type in the IP Address of the console into the app
 2. Match the rx port of the console to the tx port in the app.
 3. Match the tx port of the console to the rx port in the app.
@@ -37,7 +38,7 @@ On the other hand, with TCP the user only has to...
 Since TCP uses the same port for tx and rx - it dedicates port 3032 for this. No need for the user to worry about anything else.
 
 
-*The other main reason is packet drops.*
+*The other main reason is: packet drops.*
 
 With less packets dropped, you can insure that all OSC is being received properly. Since the EOS actually sends hundreds of OSC packets per keystroke, making sure you get each one is important.
 
