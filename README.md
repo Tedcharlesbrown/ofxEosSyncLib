@@ -19,6 +19,10 @@ EOS: family of consoles - Ion, Gio, Ti, Element, Nomad Etc...
 
 Nomad: The offline editor / actual software that the hardware runs.
 
+The offline Editor is free to download and use. The only thing you need a dongle for is to unrestrict dmx output - however this does not hinder OSC what-so-ever.
+
+Link to software: https://www.etcconnect.com/Products/Consoles/Eos-Family/
+
 ### Background:
 The EOS family console line is mostly used in live theatre. From Broadway to highschool, this is the preferred console. OSC can be used to talk with the console, and to also receive feedback. There are generic OSC apps that work, such as TouchOSC and Lemur. However, These are UDP solutions and do not easily accept feedback from the console. There are other apps such as OSC RFR by Alien Stagecraft and aRFR Remote Control by ETC (RFR = Radio Focus Remote, another device created by ETC to focus and send commands to the console via a non-smartphone remote).
 
