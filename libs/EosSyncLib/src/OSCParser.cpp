@@ -2471,7 +2471,8 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 		{
 			if(buf[i] == 0)
 			{
-				std::string desc("[OSC Packet] ");
+				//std::string desc("[OSC Packet] ");
+                std::string desc;
 				if(buf[0] == 0)
 					desc.append("<null>");
 				else
@@ -2504,7 +2505,9 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 					
 					delete[] args;
 				}
-
+                
+                Recv(desc); //SEND INCOMING OSC
+                
 				client.OSCParserClient_Log(desc);
 				return true;
 			}
@@ -2513,6 +2516,13 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 
 	return false;
 }
+
+//HOW TO USE THIS IN OFAPP.CPP?
+string OSCMethod::Recv(string incomingOSC)
+{
+    return incomingOSC;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,5 @@
 #include "ofxEosSyncLib.h"
 
-
 ofxEosSyncLib::ofxEosSyncLib()
 {
 	ofLogVerbose("ofxEosSyncLib::ofxEosSyncLib") << "initing...";
@@ -149,6 +148,11 @@ void ofxEosSyncLib::printSummary(const EosSyncData &syncData)
 bool ofxEosSyncLib::send(OSCPacketWriter &packet, bool immediate)
 {
 	return eosSyncLib.Send(packet, immediate);
+}
+
+string ofxEosSyncLib::recv()
+{
+    //return oscMethod.Recv(*_incomingOSC);
 }
 
 

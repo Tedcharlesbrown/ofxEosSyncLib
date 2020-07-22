@@ -22,6 +22,8 @@
 #ifndef OSC_PARSER_H
 #define OSC_PARSER_H
 
+#include "ofMain.h"
+
 #include <map>
 #include <deque>
 #include <string>
@@ -322,7 +324,9 @@ public:
 	virtual bool ProcessPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual bool PrintPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual void Print(OSCParserClient &client) const;
-
+    
+    virtual string Recv(string _incomingOSC);
+    
 private:
 	// not allowed
 	OSCMethod(const OSCMethod &) {}
