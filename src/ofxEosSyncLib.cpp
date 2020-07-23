@@ -152,7 +152,8 @@ bool ofxEosSyncLib::send(OSCPacketWriter &packet, bool immediate)
 
 string ofxEosSyncLib::recv()
 {
-    //return oscMethod.Recv(*_incomingOSC);
+    //return ofToString(ofGetElapsedTimeMillis());
+    return oscMethod.Recv();
 }
 
 
