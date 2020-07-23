@@ -12,7 +12,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    //cout << eosSync.recv() << endl;
+    cout << eosSync.recv() << endl;
     
 	if(eosSync.update())
 	{
