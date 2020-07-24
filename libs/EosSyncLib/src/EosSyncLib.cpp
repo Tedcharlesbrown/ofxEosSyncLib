@@ -1312,7 +1312,6 @@ void EosSyncData::Recv(EosTcp &tcp, EosOsc &osc, EosLog &log)
 
 void EosSyncData::RecvCmd(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::sCommand &cmd)
 {
-    
 	// is this a /get reply?
 	static const std::string sGetReply("/eos/out/get/");
 	if(cmd.path.find(sGetReply) == 0)

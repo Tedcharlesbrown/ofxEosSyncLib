@@ -122,8 +122,6 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 {
 	size_t size;
 	const char *buf = tcp.Recv(*m_pLog, timeoutMS, size);
-    
-    
 	if(buf && size!=0)
 	{
 		// append incoming data
@@ -153,13 +151,12 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 				memcpy(&m_InputBuffer.data[m_InputBuffer.size], buf, size);
 				m_InputBuffer.size += size;
 			}
-        }
-        
+		}
+
 		// do we have a complete osc packet?
 		int32_t oscPacketLen = 0;
 		while(m_InputBuffer.data && m_InputBuffer.size>=sizeof(oscPacketLen))
 		{
-            
 			memcpy(&oscPacketLen, m_InputBuffer.data, sizeof(oscPacketLen));
 			OSCArgument::Swap32(&oscPacketLen);
 			if(oscPacketLen < 0)

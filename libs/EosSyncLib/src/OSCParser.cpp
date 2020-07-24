@@ -2491,7 +2491,7 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 						std::string value;
 						arg.GetString(value);
 						desc.append(value);
-                        
+
 						// abbreviation
 						desc.append("(");
 						char abbrev[2];
@@ -2506,7 +2506,7 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 					delete[] args;
 				}
                 
-                incomingOSC = desc;
+                Recv(desc); //SEND INCOMING OSC
                 
 				client.OSCParserClient_Log(desc);
 				return true;
@@ -2518,9 +2518,8 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 }
 
 //HOW TO USE THIS IN OFAPP.CPP?
-string OSCMethod::Recv()
+string OSCMethod::Recv(string incomingOSC)
 {
-    //return ofToString(ofGetElapsedTimeMillis());
     return incomingOSC;
 }
 

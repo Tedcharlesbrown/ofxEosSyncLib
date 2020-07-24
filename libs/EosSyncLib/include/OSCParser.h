@@ -325,8 +325,7 @@ public:
 	virtual bool PrintPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual void Print(OSCParserClient &client) const;
     
-    string incomingOSC;
-    virtual string Recv();
+    virtual string Recv(string _incomingOSC);
     
 private:
 	// not allowed
