@@ -22,6 +22,8 @@
 #ifndef EOS_SYNC_LIB_H
 #define EOS_SYNC_LIB_H
 
+#include "ofMain.h"
+
 #ifndef EOS_LOG_H
 #include "EosLog.h"
 #endif
