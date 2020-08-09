@@ -30,8 +30,8 @@ void EosLog::Add(EnumLogMsgType type, const std::string &text)
 	msg.timestamp = time(0);
 	msg.text = text;
 	m_Q.push_back(msg);
-
-	//switch( type )
+    
+    //switch( type )
 	//{
 	//	case LOG_MSG_TYPE_WARNING:
 	//	case LOG_MSG_TYPE_ERROR:

@@ -22,8 +22,6 @@
 #ifndef OSC_PARSER_H
 #define OSC_PARSER_H
 
-#include "ofMain.h"
-
 #include <map>
 #include <deque>
 #include <string>
@@ -34,6 +32,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stdint.h>
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -324,10 +323,8 @@ public:
 	virtual bool ProcessPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual bool PrintPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual void Print(OSCParserClient &client) const;
-    
-    string incomingOSC;
-    virtual string Recv();
-    
+
+    virtual std::string GetAddress(OSCParserClient &client, char *buf, size_t size);
 private:
 	// not allowed
 	OSCMethod(const OSCMethod &) {}
@@ -356,6 +353,7 @@ public:
 	virtual bool ProcessPacket(OSCParserClient &client, char *buf, size_t size);
 	virtual bool PrintPacket(OSCParserClient &client, const char *buf, size_t size);
 
+    //virtual std::string GetAddress(OSCParserClient &client, char *buf, size_t size);
 	static bool IsOSCPacket(const char *buf, size_t size);
 
 	static const char OSC_BUNDLE_PREFIX[];

@@ -22,8 +22,6 @@
 #ifndef EOS_SYNC_LIB_H
 #define EOS_SYNC_LIB_H
 
-#include "ofMain.h"
-
 #ifndef EOS_LOG_H
 #include "EosLog.h"
 #endif
@@ -34,7 +32,9 @@
 
 #include <map>
 #include <string>
-
+#include <iostream>
+#include <iomanip>
+#include <ctime>
 class EosTcp;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +61,7 @@ public:
 	virtual void ResetTimestamp();
 	virtual void UpdateFromChild(const EosSyncStatus &childStatus);
 
+    
 private:
 	EnumSyncStatus	m_Value;
 	bool			m_Dirty;
@@ -238,7 +239,7 @@ public:
 	virtual ~EosSyncData();
 
 	virtual void Clear();
-	virtual void Tick(EosTcp &tcp, EosOsc &osc, EosLog &log);
+	virtual void Tick(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::CMD_Q &cmdQ);
 	virtual const EosSyncStatus& GetStatus() const {return m_Status;}
 	virtual const SHOW_DATA& GetShowData() const {return m_ShowData;}
 	virtual const EosTargetList* GetTargetList(EosTarget::EnumEosTargetType type, int listId) const;
@@ -250,7 +251,7 @@ private:
 
 	virtual void Initialize();
 	virtual void TickRunning(EosTcp &tcp, EosOsc &osc, EosLog &log);
-	virtual void Recv(EosTcp &tcp, EosOsc &osc, EosLog &log);
+	virtual void Recv(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::CMD_Q &cmdQ);
 	virtual void RecvCmd(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::sCommand &command);
 	virtual void OnTargeListInitialSyncComplete(EosTargetList &targetList);
 	virtual void RemoveOrphanedCues();
@@ -300,7 +301,13 @@ public:
 	virtual const EosTargetList& GetPixelMaps() const;
 	virtual const EosTargetList& GetMagicSheets() const;
 
+    virtual void getLatestCmds( EosOsc::OscCmdVector & cmdHistory );
+    
+    virtual int  getNumCmds();
+    virtual void getCmdList(EosOsc::CMD_Q & cmdList);
 protected:
+    EosOsc::CMD_Q oscCmds;
+    
 	EosLog		m_Log;
 	EosTcp		*m_Tcp;
 	EosOsc		*m_Osc;
