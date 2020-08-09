@@ -45,9 +45,10 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    ofxEosSyncOscMsg msg(eosMsgInput);
+    ofxEosSyncOscMsg msg("");
     msg.setAddress("/eos/ping");
     eosOsc.send(msg);
+
 }
 
 //--------------------------------------------------------------

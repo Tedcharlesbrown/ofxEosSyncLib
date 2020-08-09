@@ -1,9 +1,9 @@
 //
 //  ofxEosSyncMessage.h
-//  eosTed3
+//  ofxEtcTcpOsc
 //
 //  Created by Jayson Haebich on 08/08/2020.
-//
+//  Edited by Ted Charles Brown
 
 #ifndef ofxEosSyncMessage_h
 #define ofxEosSyncMessage_h

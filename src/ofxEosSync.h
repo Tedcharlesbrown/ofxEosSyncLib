@@ -1,9 +1,9 @@
 //
 //  ofxEosSync.hpp
-//  eosTed3
+//  ofxEtcTcpOsc
 //
 //  Created by Jayson Haebich on 08/08/2020.
-//
+//  Edited by Ted Charles Brown
 
 #ifndef ofxEosSync_hpp
 #define ofxEosSync_hpp

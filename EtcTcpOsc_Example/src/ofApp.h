@@ -13,7 +13,6 @@ public:
     void draw();
     
     ofxEosSync        eosOsc;
-    char eosMsgInput[128]  = "";
     
     void keyPressed(int key);
     void keyReleased(int key);
