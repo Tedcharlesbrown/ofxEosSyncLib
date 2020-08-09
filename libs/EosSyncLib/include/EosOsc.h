@@ -42,16 +42,24 @@ public:
 	struct sCommand
 	{
 		sCommand();
+        sCommand( const sCommand & copy );
+        sCommand( sCommand * copy);
+        
+        void copy( const sCommand & copy);
+        void copy( const sCommand * copy);
 		~sCommand();
 		void clear();
 		std::string	path;
 		OSCArgument	*args;
 		size_t		argCount;
 		char		*buf;
+        std::string timestamp;
 	};
 
 	typedef std::queue<sCommand*> CMD_Q;
 
+    typedef std::queue<sCommand*> OscCmdVector;
+    
 	EosOsc(EosLog &log);
 	~EosOsc();
 

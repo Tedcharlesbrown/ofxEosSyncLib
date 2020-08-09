@@ -39,6 +39,26 @@ EosOsc::sCommand::~sCommand()
 	clear();
 }
 
+EosOsc::sCommand::sCommand( sCommand * copy)
+{
+    
+    printf("copy constructor here1: %s\n", copy->path.c_str());
+    this->path = copy->path;
+}
+EosOsc::sCommand::sCommand( const EosOsc::sCommand & copy )
+{
+    printf("copy constructor here2: %s\n", copy.path.c_str());
+    this->path = copy.path;
+}
+
+void EosOsc::sCommand::copy(const EosOsc::sCommand & copy)
+{
+    
+}
+void EosOsc::sCommand::copy(const EosOsc::sCommand * copy)
+{
+    this->path = copy->path;
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 void EosOsc::sCommand::clear()
@@ -122,8 +142,6 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 {
 	size_t size;
 	const char *buf = tcp.Recv(*m_pLog, timeoutMS, size);
-    
-    
 	if(buf && size!=0)
 	{
 		// append incoming data
@@ -153,13 +171,12 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 				memcpy(&m_InputBuffer.data[m_InputBuffer.size], buf, size);
 				m_InputBuffer.size += size;
 			}
-        }
-        
+		}
+
 		// do we have a complete osc packet?
 		int32_t oscPacketLen = 0;
 		while(m_InputBuffer.data && m_InputBuffer.size>=sizeof(oscPacketLen))
 		{
-            
 			memcpy(&oscPacketLen, m_InputBuffer.data, sizeof(oscPacketLen));
 			OSCArgument::Swap32(&oscPacketLen);
 			if(oscPacketLen < 0)
@@ -173,11 +190,16 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 				char text[128];
 				sprintf(text, "Received Osc Packet [%d]", static_cast<int>(oscPacketLen));
 				m_pLog->AddDebug(text);
-
-				m_Parser.PrintPacket(*this, oscData, oscPacketLen);
-
+                
+                // Here now we have a complete osc data
+				//m_Parser.PrintPacket(*this,   oscData, oscPacketLen);
+                //m_Parser.ProcessPacket(*this, oscData, oscPacketLen);
 				sCommand *cmd = new sCommand;
-
+                time_t _tm =time(NULL );
+                
+                struct tm * curtime = localtime ( &_tm );
+                cmd->timestamp = asctime(curtime);
+                cmd->timestamp.pop_back();
 				cmd->buf = new char[oscPacketLen];
 				memcpy(cmd->buf, oscData, oscPacketLen);
 
@@ -192,8 +214,8 @@ void EosOsc::Recv(EosTcp &tcp, unsigned int timeoutMS, CMD_Q &cmdQ)
 						break;
 					}
 				}
-
-				cmdQ.push(cmd);
+                
+                cmdQ.push(cmd);
 
 				// shift away processed data
 				m_InputBuffer.size -= totalSize;

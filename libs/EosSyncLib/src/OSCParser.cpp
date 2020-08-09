@@ -460,6 +460,8 @@ bool OSCArgument::Init(EnumArgumentTypes type, char *buf, size_t size)
 		case OSC_TYPE_INFINITY:
 			m_Size = 0;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -513,6 +515,8 @@ bool OSCArgument::GetFloat(float &f) const
 		case OSC_TYPE_INFINITY:
 			f = FLT_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -566,6 +570,8 @@ bool OSCArgument::GetDouble(double &d) const
 		case OSC_TYPE_INFINITY:
 			d = DBL_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -627,6 +633,8 @@ bool OSCArgument::GetInt(int &n) const
 		case OSC_TYPE_INFINITY:
 			n = INT_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -688,6 +696,8 @@ bool OSCArgument::GetUInt(unsigned int &n) const
 		case OSC_TYPE_INFINITY:
 			n = UINT_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -749,6 +759,8 @@ bool OSCArgument::GetInt64(int64_t &n) const
 		case OSC_TYPE_INFINITY:
 			n = INT64_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -810,6 +822,8 @@ bool OSCArgument::GetUInt64(uint64_t &n) const
 		case OSC_TYPE_INFINITY:
 			n = UINT64_MAX;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -921,6 +935,8 @@ bool OSCArgument::GetString(std::string &str) const
 		case OSC_TYPE_INFINITY:
 			str = "Infinity";
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -990,6 +1006,8 @@ bool OSCArgument::GetBool(bool &b) const
 		case OSC_TYPE_NULL:
 			b = false;
 			return true;
+            
+        default: break;
 	}
 
 	return false;
@@ -1085,13 +1103,15 @@ OSCArgument::EnumArgumentTypes OSCArgument::GetArgumentTypeFromChar(char c)
 		case 't':	return OSC_TYPE_TIME;
 		case 'r':	return OSC_TYPE_RGBA32;
 		case 'm':	return OSC_TYPE_MIDI;
-		case 'T':	return OSC_TYPE_TRUE;
-		case 'F':	return OSC_TYPE_FALSE;
-		case 'N':	return OSC_TYPE_NULL;
-		case 'I':	return OSC_TYPE_INFINITY;
-	}
-
-	return OSC_TYPE_INVALID;
+        case 'T':	return OSC_TYPE_TRUE;
+        case 'F':	return OSC_TYPE_FALSE;
+        case 'N':	return OSC_TYPE_NULL;
+        case 'I':	return OSC_TYPE_INFINITY;
+            
+        default: break;
+    }
+    
+    return OSC_TYPE_INVALID;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1105,18 +1125,21 @@ char OSCArgument::GetCharFromArgumentType(EnumArgumentTypes type)
 		case OSC_TYPE_INT64:	return 'h';
 		case OSC_TYPE_FLOAT32:	return 'f';
 		case OSC_TYPE_FLOAT64:	return 'd';
-		case OSC_TYPE_STRING:	return 's';
-		case OSC_TYPE_BLOB:		return 'b';
-		case OSC_TYPE_TIME:		return 't';
-		case OSC_TYPE_RGBA32:	return 'r';
-		case OSC_TYPE_MIDI:		return 'm';
-		case OSC_TYPE_TRUE:		return 'T';
-		case OSC_TYPE_FALSE:	return 'F';
-		case OSC_TYPE_NULL:		return 'N';
-		case OSC_TYPE_INFINITY:	return 'I';
-	}
-
-	return 0;
+        case OSC_TYPE_STRING:	return 's';
+        case OSC_TYPE_BLOB:		return 'b';
+        case OSC_TYPE_TIME:		return 't';
+        case OSC_TYPE_RGBA32:	return 'r';
+        case OSC_TYPE_MIDI:		return 'm';
+        case OSC_TYPE_TRUE:		return 'T';
+        case OSC_TYPE_FALSE:	return 'F';
+        case OSC_TYPE_NULL:		return 'N';
+        case OSC_TYPE_INFINITY:	return 'I';
+            
+        default: break;
+            
+    }
+    
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1452,16 +1475,17 @@ void OSCPacketWriter::sArgInfo::clear()
 		case OSCArgument::OSC_TYPE_BLOB:
 			{
 				if( data.binaryData )
-				{
-					delete[] data.binaryData;
-					data.binaryData = 0;
-				}
-			}
-			break;
-	}
-
-	type = OSCArgument::OSC_TYPE_INVALID;
-	size = 0;
+                {
+                    delete[] data.binaryData;
+                    data.binaryData = 0;
+                }
+            }
+            break;
+        default: break;
+    }
+    
+    type = OSCArgument::OSC_TYPE_INVALID;
+    size = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1596,6 +1620,8 @@ void OSCPacketWriter::WriteArg(char *buf, const sArgInfo &info) const
 		case OSCArgument::OSC_TYPE_BLOB:
 			memcpy(buf, info.data.binaryData, info.size);
 			break;
+            
+        default: break;
 	}
 }
 
@@ -1926,6 +1952,8 @@ void OSCPacketWriter::AddOSCArg(const OSCArgument &arg)
 		case OSCArgument::OSC_TYPE_INFINITY:
 			AddInfinity();
 			break;
+            
+        default: break;
 	}
 }
 
@@ -2390,7 +2418,8 @@ void OSCMethod::AddMethod(const char *name, OSCMethod *method)
 
 bool OSCMethod::ProcessPacket(OSCParserClient &client, char *buf, size_t size)
 {
-	// extract the next method name
+    
+    // extract the next method name
 	if(buf && size!=0)
 	{
 		// skip first separator
@@ -2433,8 +2462,7 @@ bool OSCMethod::ProcessPacket(OSCParserClient &client, char *buf, size_t size)
 					break;
 				}
 			}
-
-			// do we have a method name?
+            // do we have a method name?
 			if( methodName )
 			{
 				std::string name(methodName);
@@ -2462,6 +2490,24 @@ bool OSCMethod::ProcessPacket(OSCParserClient &client, char *buf, size_t size)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string OSCMethod::GetAddress(OSCParserClient &client, char *buf, size_t size)
+{
+    std::string desc("");
+    if( buf )
+    {
+        for(size_t i=0; i<size; i++)
+        {
+            if(buf[i] == 0)
+            {
+                if(buf[0] == 0)
+                    desc.append("<null>");
+                else
+                    desc.append(buf);
+            }
+        }
+    }
+    return desc;
+}
 bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 {
 	// find osc path null terminator
@@ -2471,14 +2517,13 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 		{
 			if(buf[i] == 0)
 			{
-				//std::string desc("[OSC Packet] ");
-                std::string desc;
+				std::string desc("");
 				if(buf[0] == 0)
 					desc.append("<null>");
 				else
 					desc.append(buf);
-
-				size_t count = 0xffffffff;
+                
+                size_t count = 0xffffffff;
 				OSCArgument *args = OSCArgument::GetArgs(buf, size, count);
 				if( args )
 				{
@@ -2491,7 +2536,7 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 						std::string value;
 						arg.GetString(value);
 						desc.append(value);
-                        
+
 						// abbreviation
 						desc.append("(");
 						char abbrev[2];
@@ -2505,9 +2550,7 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 					
 					delete[] args;
 				}
-                
-                incomingOSC = desc;
-                
+
 				client.OSCParserClient_Log(desc);
 				return true;
 			}
@@ -2516,14 +2559,6 @@ bool OSCMethod::PrintPacket(OSCParserClient &client, char *buf, size_t size)
 
 	return false;
 }
-
-//HOW TO USE THIS IN OFAPP.CPP?
-string OSCMethod::Recv()
-{
-    //return ofToString(ofGetElapsedTimeMillis());
-    return incomingOSC;
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////
 

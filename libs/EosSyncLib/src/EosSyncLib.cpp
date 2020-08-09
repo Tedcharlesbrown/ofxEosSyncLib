@@ -632,10 +632,11 @@ void EosTargetList::Clear()
 
 void EosTargetList::Tick(EosTcp &tcp, EosOsc &osc)
 {
-	switch( m_StatusInternal.GetValue() )
-	{
-		case EosSyncStatus::SYNC_STATUS_UNINTIALIZED:
-			{
+    //MARK: ORIGINAL LIBRARY "EOS/SUBSCRIBE"
+//	switch( m_StatusInternal.GetValue() )
+//	{
+//		case EosSyncStatus::SYNC_STATUS_UNINTIALIZED:
+//			{
 //				std::string path("/eos/get/");
 //				path.append( EosTarget::GetNameForTargetType(m_Type) );
 //				if(m_Type == EosTarget::EOS_TARGET_CUE)
@@ -649,75 +650,75 @@ void EosTargetList::Tick(EosTcp &tcp, EosOsc &osc)
 //
 //				if( osc.Send(tcp,OSCPacketWriter(path),/*immediate*/false) )
 //					m_StatusInternal.SetValue(EosSyncStatus::SYNC_STATUS_RUNNING);
-			}
-			break;
-
-		case EosSyncStatus::SYNC_STATUS_COMPLETE:
-			{
-				if(m_Status.GetValue() == EosSyncStatus::SYNC_STATUS_RUNNING)
-				{
-					bool allTargetsComplete = true;
-
-					for(TARGETS::iterator i=m_Targets.begin(); i!=m_Targets.end(); i++)
-					{
-						sParts &parts = i->second;
-						if( !parts.initialized )
-						{
-							// Notify created a placeholder for a newly added target, request info
-							std::string path("/eos/get/");
-							path.append( EosTarget::GetNameForTargetType(m_Type) );
-							if(m_Type == EosTarget::EOS_TARGET_CUE)
-							{
-								path.append("/");
-								char buf[33];
-								sprintf(buf, "%d", m_ListId);					
-								path.append(buf);
-							}
-
-							std::string numStr;
-							EosTarget::GetStringFromNumber(i->first, numStr);
-							if( !numStr.empty() )
-							{
-								path.append("/");
-								path.append(numStr);
-								if( osc.Send(tcp,OSCPacketWriter(path),/*immediate*/false) )
-									parts.initialized = true;
-							}
-
-							allTargetsComplete = false;
-						}
-						else if( parts.list.empty() )
-						{
-							// waiting for reply
-							allTargetsComplete = false;
-						}
-						else
-						{
-							for(PARTS::const_iterator j=parts.list.begin(); j!=parts.list.end(); j++)
-							{
-								EosTarget *target = j->second;
-								if(target->GetStatus().GetValue() != EosSyncStatus::SYNC_STATUS_COMPLETE)
-									allTargetsComplete = false;
-							}
-						}
-					}
-
-					if( allTargetsComplete )
-					{
-						if( m_InitialSync.complete )
-						{
-							m_Status.SetValue(EosSyncStatus::SYNC_STATUS_COMPLETE);
-						}
-						else if(m_NumTargets >= m_InitialSync.count)
-						{
-							m_InitialSync.complete = true;
-							m_Status.SetValue(EosSyncStatus::SYNC_STATUS_COMPLETE);
-						}
-					}
-				}
-			}
-			break;
-	}
+//			}
+//			break;
+//
+//		case EosSyncStatus::SYNC_STATUS_COMPLETE:
+//			{
+//				if(m_Status.GetValue() == EosSyncStatus::SYNC_STATUS_RUNNING)
+//				{
+//					bool allTargetsComplete = true;
+//
+//					for(TARGETS::iterator i=m_Targets.begin(); i!=m_Targets.end(); i++)
+//					{
+//						sParts &parts = i->second;
+//						if( !parts.initialized )
+//						{
+//							// Notify created a placeholder for a newly added target, request info
+//							std::string path("/eos/get/");
+//							path.append( EosTarget::GetNameForTargetType(m_Type) );
+//							if(m_Type == EosTarget::EOS_TARGET_CUE)
+//							{
+//								path.append("/");
+//								char buf[33];
+//								sprintf(buf, "%d", m_ListId);
+//								path.append(buf);
+//							}
+//
+//							std::string numStr;
+//							EosTarget::GetStringFromNumber(i->first, numStr);
+//							if( !numStr.empty() )
+//							{
+//								path.append("/");
+//								path.append(numStr);
+//								if( osc.Send(tcp,OSCPacketWriter(path),/*immediate*/false) )
+//									parts.initialized = true;
+//							}
+//
+//							allTargetsComplete = false;
+//						}
+//						else if( parts.list.empty() )
+//						{
+//							// waiting for reply
+//							allTargetsComplete = false;
+//						}
+//						else
+//						{
+//							for(PARTS::const_iterator j=parts.list.begin(); j!=parts.list.end(); j++)
+//							{
+//								EosTarget *target = j->second;
+//								if(target->GetStatus().GetValue() != EosSyncStatus::SYNC_STATUS_COMPLETE)
+//									allTargetsComplete = false;
+//							}
+//						}
+//					}
+//
+//					if( allTargetsComplete )
+//					{
+//						if( m_InitialSync.complete )
+//						{
+//							m_Status.SetValue(EosSyncStatus::SYNC_STATUS_COMPLETE);
+//						}
+//						else if(m_NumTargets >= m_InitialSync.count)
+//						{
+//							m_InitialSync.complete = true;
+//							m_Status.SetValue(EosSyncStatus::SYNC_STATUS_COMPLETE);
+//						}
+//					}
+//				}
+//			}
+//			break;
+//	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -859,6 +860,7 @@ void EosTargetList::Recv(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::sCommand
 
 void EosTargetList::ProcessReceviedTarget(EosLog &log, EosOsc::sCommand &command, const EosTarget::sPathData &pathData)
 {
+    printf("ProcessReceviedTarget\n");
 	int part = pathData.key.part;
 	switch( m_Type )
 	{
@@ -1295,24 +1297,48 @@ void EosSyncData::OnTargeListInitialSyncComplete(EosTargetList &targetList)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void EosSyncData::Recv(EosTcp &tcp, EosOsc &osc, EosLog &log)
+void EosSyncData::Recv(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::CMD_Q &cmdQ)
 {
-	EosOsc::CMD_Q cmdQ;
+	//sCommand s;
 	osc.Recv(tcp, TCP_RECV_TIMEOUT, cmdQ);
-
-	while( !cmdQ.empty() )
-	{
-		RecvCmd(tcp, osc, log, *cmdQ.front());
-		delete cmdQ.front();
-		cmdQ.pop();
-	}
+    //std::queue<sCommand*> CMD_Q;
+    
+    // here now we have the cmdQ full of commands
+    /*while (!cmdQ.empty()) {
+        
+        
+        //std::string    path;
+        //OSCArgument    *args;
+        //size_t        argCount;
+        //char        *buf;
+        
+        printf("cmd: %s args: %i\n",(cmdQ.front())->path.c_str(), (cmdQ.front())->argCount);
+        for( int i =0; i < (cmdQ.front())->argCount;i++)
+        {
+            switch((cmdQ.front())->args[i].GetType())
+            {
+                default:
+                    break;
+            }
+        }
+        //cout << ' ' << myqueue.front();
+        //cmdQ.pop();
+    }*/
+    
+    // This is where the commands get parsed, skip for now
+	//while( !cmdQ.empty() )
+	//{
+	//	RecvCmd(tcp, osc, log, *cmdQ.front());
+	//	delete cmdQ.front();
+	//	cmdQ.pop();
+	//}
+    
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 void EosSyncData::RecvCmd(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::sCommand &cmd)
 {
-    
 	// is this a /get reply?
 	static const std::string sGetReply("/eos/out/get/");
 	if(cmd.path.find(sGetReply) == 0)
@@ -1508,7 +1534,7 @@ void EosSyncData::RemoveOrphanedCues()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void EosSyncData::Tick(EosTcp &tcp, EosOsc &osc, EosLog &log)
+void EosSyncData::Tick(EosTcp &tcp, EosOsc &osc, EosLog &log, EosOsc::CMD_Q &cmdQ)
 {
 	switch( m_Status.GetValue() )
 	{
@@ -1521,7 +1547,7 @@ void EosSyncData::Tick(EosTcp &tcp, EosOsc &osc, EosLog &log)
 			break;
 	}
 
-	Recv(tcp, osc, log);
+	Recv(tcp, osc, log,cmdQ);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1608,18 +1634,57 @@ void EosSyncLib::Tick()
 
 	if( IsConnected() )
 	{
-		if( !wasConnected )
-		{
-			OSCPacketWriter subscribePacket("/eos/subscribe");
-			subscribePacket.AddTrue();
-			m_Osc->Send(*m_Tcp, subscribePacket, /*immediate*/false);
-		}
+		if( !wasConnected ){
+            //MARK: ORIGINAL LIBRARY "EOS/SUBSCRIBE"
+//            printf("sending subscribe\n");
+//            OSCPacketWriter subscribePacket("/eos/subscribe");
+//            //subscribePacket.AddInt32(1);
+//            subscribePacket.AddTrue();
+//			m_Osc->Send(*m_Tcp, subscribePacket, /*immediate*/false);
+        }else{
 
-		m_Data.Tick(*m_Tcp, *m_Osc, m_Log);
+            //OSCPacketWriter subscribePacket("/eos/ping");
+            //subscribePacket.AddTrue();
+            //m_Osc->Send(*m_Tcp, subscribePacket, /*immediate*/false);
+        }
+
+		m_Data.Tick(*m_Tcp, *m_Osc, m_Log, oscCmds);
 		m_Osc->Tick(*m_Tcp);
 	}
+    
 }
 
+
+void EosSyncLib::getLatestCmds( EosOsc::OscCmdVector & cmdHistory )
+{
+    while (!oscCmds.empty()) {
+        
+        //printf( "adding: %s\n", (oscCmds.front())->path.c_str());
+        //std::string    path;
+        //OSCArgument    *args;
+        //size_t        argCount;
+        //char        *buf;
+        cmdHistory.push(oscCmds.front());
+        
+        oscCmds.pop();
+    }
+    
+}
+
+int EosSyncLib::getNumCmds()
+{
+    return oscCmds.size();
+}
+
+void EosSyncLib::getCmdList(EosOsc::CMD_Q & cmdList)
+{
+    while (!oscCmds.empty()) {
+        
+        cmdList.push(oscCmds.front());
+        
+        oscCmds.pop();
+    }
+}
 ////////////////////////////////////////////////////////////////////////////////
 
 bool EosSyncLib::Send(OSCPacketWriter &packet, bool immediate)
