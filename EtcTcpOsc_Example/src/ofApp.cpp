@@ -8,10 +8,13 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
     while(eosOsc.hasWaitingMessages()) {
+        
         ofxEosSyncOscMsg m = eosOsc.getNextMessage();
-        if (m.getAddress() == "/eos/out/user/1/cmd") {
+        
+        if (m.getAddress() == "/eos/out/user/1/cmd") { //Get command line
             cout << m.getArgAsStr(0) << endl;
-        } else if (m.getAddress() == "/eos/out/ping") {
+            
+        } else if (m.getAddress() == "/eos/out/ping") { //Get ping back
             cout << m.getAsString() << endl;
         }
     }

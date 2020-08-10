@@ -12,7 +12,7 @@ public:
     void update();
     void draw();
     
-    ofxEosSync        eosOsc;
+    ofxEosSync eosOsc;
     
     void keyPressed(int key);
     void keyReleased(int key);
