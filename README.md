@@ -79,7 +79,7 @@ void ofApp::mousePressed(int x, int y, int button){
 ## Acknowledgements
 
 * [Electronic Theatre Controls](https://www.etcconnect.com/)
-* Jayson Haebich
+* Jayson Haebich - Converted the library and added functions to mimick [ofxOsc](https://openframeworks.cc/documentation/ofxOsc/)
 * [The openFrameworks community](https://forum.openframeworks.cc/)
 * [@Roy Macdonald](https://github.com/roymacdonald)
 
