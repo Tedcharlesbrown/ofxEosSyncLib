@@ -16,7 +16,7 @@
 
 meta:
 	ADDON_NAME = ofxEtcTcpOsc
-	ADDON_DESCRIPTION = Openframeworks to connect with TCP OSC to EOS app
+	ADDON_DESCRIPTION = Openframeworks to connect with TCP OSC to EOS app.
 	ADDON_AUTHOR = @Jayson + @Tedcharlesbrown
 	ADDON_TAGS = "addon" "EOS" "TCP" "OSC"
 	ADDON_URL = http://github.com/Tedcharlesbrown/ofxEtcTcpOsc
