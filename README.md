@@ -19,7 +19,7 @@ To use this addon with OpenFrameworks:
 ## Simple Example
 #### ofApp.h
 ```
-<#pragma once
+#pragma once
 
 #include "ofMain.h"
 
