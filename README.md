@@ -1,3 +1,4 @@
+![Addon Thumbnail](https://github.com/Tedcharlesbrown/ofxEtcTcpOsc/blob/Parent/ofxaddons_thumbnail.png)
 # ofxEtcTcpOsc
 
 This is an OpenFrameworks adaptation of the [EosSyncLib](https://github.com/ETCLabs/EosSyncLib) from [ETC Labs](https://github.com/ETCLabs). Thanks to Jayson Haebich for the conversion and making everything work.
