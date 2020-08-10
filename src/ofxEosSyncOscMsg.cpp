@@ -68,6 +68,8 @@ ofxEosSyncOscMsg::ofxEosSyncOscMsg( EosOsc::sCommand & inCmd )
                     }
             }
             break;
+                
+            default: break;
         }
     }
 }
