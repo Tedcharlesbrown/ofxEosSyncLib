@@ -45,7 +45,7 @@ class ofxEosSyncOscMsg
 {
 public:
     
-    
+    ofxEosSyncOscMsg();
     ofxEosSyncOscMsg( EosOsc::sCommand & inCmd );
     ofxEosSyncOscMsg( string addr );
     

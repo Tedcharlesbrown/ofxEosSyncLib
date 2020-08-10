@@ -8,6 +8,14 @@
 #include "ofxEosSyncOscMsg.h"
 
 /**
+ * Create an empty ofxEosSyncOscMsg
+ */
+ofxEosSyncOscMsg::ofxEosSyncOscMsg()
+{
+    
+}
+
+/**
  * Create an ofxEosSyncOscMsg from an EosOsc::sCommand
  */
 ofxEosSyncOscMsg::ofxEosSyncOscMsg( EosOsc::sCommand & inCmd )
