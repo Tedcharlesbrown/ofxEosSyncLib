@@ -41,13 +41,13 @@ struct OscArgument
     
 };
 
-class ofxEosSyncOscMsg
+class ofxEosOscMsg
 {
 public:
     
-    ofxEosSyncOscMsg();
-    ofxEosSyncOscMsg( EosOsc::sCommand & inCmd );
-    ofxEosSyncOscMsg( string addr );
+    ofxEosOscMsg();
+    ofxEosOscMsg( EosOsc::sCommand & inCmd );
+    ofxEosOscMsg( string addr );
     
     void setToPacket( OSCPacketWriter & packet);
     string getAsString();
@@ -57,8 +57,11 @@ public:
     int getArgType    ( int index );
     int        getArgAsInt   ( int index );
     float      getArgAsFloat ( int index );
-    string     getArgAsStr   ( int index );
+    string     getArgAsString   ( int index );
     int        getNumArgs();
+    
+    bool       argHasPercent( int index );
+    string     getArgPercent( int index );
     
     // For sending messages
     void   clear();

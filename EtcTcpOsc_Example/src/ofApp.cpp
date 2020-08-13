@@ -9,14 +9,21 @@ void ofApp::setup(){
 void ofApp::update(){
     while(eosOsc.hasWaitingMessages()) {
         
-        ofxEosSyncOscMsg m = eosOsc.getNextMessage();
+        ofxEosOscMsg m = eosOsc.getNextMessage();
         
-        if (m.getAddress() == "/eos/out/user/1/cmd") { //Get command line
-            cout << m.getArgAsStr(0) << endl;
+        if (m.getAddress() == "/eos/out/user/1/cmd") { //GET COMMAND LINE
+            cout << m.getArgAsString(0) << endl;
             
-        } else if (m.getAddress() == "/eos/out/ping") { //Get ping back
+        } else if (m.getAddress() == "/eos/out/ping") { //GET PING BACK
             cout << m.getAsString() << endl;
+            
+            
+        } else if (m.getAsString().find("Intens") != string::npos){ //FIND INTENSITY MESSAGE
+            if (m.argHasPercent(0)) //CHECK IF ARG 1 HAS [#]
+            cout << "INTENSITY = " << m.getArgPercent(0) << endl; //PARSE THE PERCENTAGE OUT
         }
+        
+    
     }
 }
 
@@ -48,9 +55,9 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    ofxEosSyncOscMsg msg;
-    msg.setAddress("/eos/ping");
-    eosOsc.send(msg);
+    ofxEosOscMsg m;
+    m.setAddress("/eos/ping");
+    eosOsc.sendMessage(m);
 
 }
 

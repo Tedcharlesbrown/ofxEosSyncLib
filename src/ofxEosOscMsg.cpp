@@ -5,12 +5,12 @@
 //  Created by Jayson Haebich on 08/08/2020.
 //  Edited by Ted Charles Brown
 
-#include "ofxEosSyncOscMsg.h"
+#include "ofxEosOscMsg.h"
 
 /**
  * Create an empty ofxEosSyncOscMsg
  */
-ofxEosSyncOscMsg::ofxEosSyncOscMsg()
+ofxEosOscMsg::ofxEosOscMsg()
 {
     
 }
@@ -18,7 +18,7 @@ ofxEosSyncOscMsg::ofxEosSyncOscMsg()
 /**
  * Create an ofxEosSyncOscMsg from an EosOsc::sCommand
  */
-ofxEosSyncOscMsg::ofxEosSyncOscMsg( EosOsc::sCommand & inCmd )
+ofxEosOscMsg::ofxEosOscMsg( EosOsc::sCommand & inCmd )
 {
     // save address and timestamp
     this->addr = inCmd.path;
@@ -77,7 +77,7 @@ ofxEosSyncOscMsg::ofxEosSyncOscMsg( EosOsc::sCommand & inCmd )
 /**
  * Makes a string with address and args, for debugging
  */
-string ofxEosSyncOscMsg::getAsString()
+string ofxEosOscMsg::getAsString()
 {
     string str;
     str = time + ": " + addr;
@@ -96,7 +96,7 @@ string ofxEosSyncOscMsg::getAsString()
 /**
  * Create an ofxEosSyncOscMsg from a string
  */
-ofxEosSyncOscMsg::ofxEosSyncOscMsg( string addr )
+ofxEosOscMsg::ofxEosOscMsg( string addr )
 {
     this->addr = addr;
 }
@@ -104,7 +104,7 @@ ofxEosSyncOscMsg::ofxEosSyncOscMsg( string addr )
 /**
  * get the address of this message
  */
-string ofxEosSyncOscMsg::getAddress()
+string ofxEosOscMsg::getAddress()
 {
     return addr;
 }
@@ -112,7 +112,7 @@ string ofxEosSyncOscMsg::getAddress()
 /**
  * Get the arg type at index
  */
-int ofxEosSyncOscMsg::getArgType ( int index )
+int ofxEosOscMsg::getArgType ( int index )
 {
     return argList[ index ].tag;
 }
@@ -120,7 +120,7 @@ int ofxEosSyncOscMsg::getArgType ( int index )
 /**
  * Get an int at index
  */
-int ofxEosSyncOscMsg::getArgAsInt( int index )
+int ofxEosOscMsg::getArgAsInt( int index )
 {
     return argList[ index ].i;
 }
@@ -129,7 +129,7 @@ int ofxEosSyncOscMsg::getArgAsInt( int index )
 /**
  * Get a float at index
  */
-float  ofxEosSyncOscMsg::getArgAsFloat  ( int index )
+float  ofxEosOscMsg::getArgAsFloat  ( int index )
 {
     return argList[ index ].f;
 }
@@ -137,15 +137,43 @@ float  ofxEosSyncOscMsg::getArgAsFloat  ( int index )
 /**
  * Get a String at index
  */
-string ofxEosSyncOscMsg::getArgAsStr( int index )
+string ofxEosOscMsg::getArgAsString( int index )
 {
     return argList[ index ].s;
 }
 
 /**
+ * Get a if argument [has percentage]
+ */
+bool ofxEosOscMsg::argHasPercent( int index )
+{
+    if (argList[ index ].s.find("[") != string::npos) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Get a percent of argument
+ */
+string ofxEosOscMsg::getArgPercent( int index )
+{
+    if (argList[ index ].s.find("[") != string::npos) {
+        string incomingOSC = argList[ index ].s;
+        int indexValueStart = incomingOSC.find("[");
+        int indexValueEnd = incomingOSC.find("]");
+        string outputString = incomingOSC.substr(indexValueStart + 1, indexValueEnd - indexValueStart - 1);
+        return outputString;
+    } else {
+        return "ARGUMENT HAS NO [PERCENTAGE]";
+    }
+
+}
+
+/**
  * Clear all the arguments
  */
-void ofxEosSyncOscMsg::clear()
+void ofxEosOscMsg::clear()
 {
     argList.clear();
 }
@@ -153,7 +181,7 @@ void ofxEosSyncOscMsg::clear()
 /**
  * Set the address of this osc mesagge
  */
-void ofxEosSyncOscMsg::setAddress( const string addr )
+void ofxEosOscMsg::setAddress( const string addr )
 {
     this->addr = addr;
 }
@@ -161,7 +189,7 @@ void ofxEosSyncOscMsg::setAddress( const string addr )
 /**
  * Add an int arg
  */
-void ofxEosSyncOscMsg::addIntArg( const int val )
+void ofxEosOscMsg::addIntArg( const int val )
 {
     argList.push_back( OscArgument( val ) );
 }
@@ -169,7 +197,7 @@ void ofxEosSyncOscMsg::addIntArg( const int val )
 /**
  * Add a float arg
  */
-void ofxEosSyncOscMsg::addFloatArg( const float val )
+void ofxEosOscMsg::addFloatArg( const float val )
 {
     argList.push_back( OscArgument( val ) );
 }
@@ -177,12 +205,12 @@ void ofxEosSyncOscMsg::addFloatArg( const float val )
 /**
  * Add a string arg
  */
-void ofxEosSyncOscMsg::addStringArg( const string val )
+void ofxEosOscMsg::addStringArg( const string val )
 {
     argList.push_back( OscArgument( val ) );
 }
 
-int ofxEosSyncOscMsg::getNumArgs()
+int ofxEosOscMsg::getNumArgs()
 {
     return argList.size();
 }

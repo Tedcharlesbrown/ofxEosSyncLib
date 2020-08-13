@@ -28,7 +28,7 @@ bool ofxEosSync::hasWaitingMessages()
     return msgList.size();
 }
 
-ofxEosSyncOscMsg ofxEosSync::getNextMessage()
+ofxEosOscMsg ofxEosSync::getNextMessage()
 {
     //if(msgList.size()>0)
     //{
@@ -40,7 +40,7 @@ ofxEosSyncOscMsg ofxEosSync::getNextMessage()
     
 }
 
-void ofxEosSync::send( ofxEosSyncOscMsg & sendMsg )
+void ofxEosSync::sendMessage( ofxEosOscMsg & sendMsg )
 {
     OSCPacketWriter packet;
     packet.SetPath( sendMsg.getAddress() );
@@ -58,7 +58,7 @@ void ofxEosSync::send( ofxEosSyncOscMsg & sendMsg )
                 break;
                 
             case OscArgument::ArgType::STRING:
-                packet.AddString( sendMsg.getArgAsStr(i) );
+                packet.AddString( sendMsg.getArgAsString(i) );
                 break;
         }
     }
@@ -88,7 +88,7 @@ void ofxEosSync::threadedFunction()
                 while( cmdList.size() > 0)
                 {
                     // Convert an EosOsc osc object to our type
-                    ofxEosSyncOscMsg msg( *cmdList.front() );
+                    ofxEosOscMsg msg( *cmdList.front() );
                     msgList.push_front( msg );
                     cmdList.pop();
                 }

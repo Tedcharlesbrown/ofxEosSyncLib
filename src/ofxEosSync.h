@@ -10,21 +10,21 @@
 
 #include "ofMain.h"
 #include "EosOsc.h"
-#include "ofxEosSyncOscMsg.h"
+#include "ofxEosOscMsg.h"
 class ofxEosSync : public ofThread
 {
 public:
     bool setup( const string addr, const int port );
     bool hasWaitingMessages();
     bool isConnected();
-    ofxEosSyncOscMsg getNextMessage();
-    void send( ofxEosSyncOscMsg & sendMsg );
+    ofxEosOscMsg getNextMessage();
+    void sendMessage( ofxEosOscMsg & sendMsg );
     void threadedFunction();
     void close();
     
 private:
     
-    list < ofxEosSyncOscMsg > msgList;
+    list < ofxEosOscMsg > msgList;
     
     string            addr;
     unsigned short    port;

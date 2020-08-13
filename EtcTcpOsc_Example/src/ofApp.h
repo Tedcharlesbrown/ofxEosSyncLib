@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "ofxEosSyncOscMsg.h"
+#include "ofxEosOscMsg.h"
 #include "ofxEosSync.h"
 
 class ofApp : public ofBaseApp{
